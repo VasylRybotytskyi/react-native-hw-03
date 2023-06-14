@@ -7,12 +7,15 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
 } from "react-native";
 import { Button } from "react-native-elements";
 import { AntDesign } from "@expo/vector-icons";
 
-const windowWidth = Dimensions.get("window").width; // Для ширини екрану
-const windowHeight = Dimensions.get("window").height; // Для висоти екрану
+const windowWidth = Dimensions.get("window").width;
+const windowHeight = Dimensions.get("window").height;
 
 export const RegistrationScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +23,7 @@ export const RegistrationScreen = () => {
   const [isEmailFocused, setEmailFocused] = useState(false);
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const [login, setLogin] = useState("");
-  const [Email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -48,70 +51,74 @@ export const RegistrationScreen = () => {
   const signIn = () => {
     console.debug("Register!");
   };
+
   console.debug(login);
-  console.debug(Email);
+  console.debug(email);
+
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../assets/images/photoBg.png")}
-        style={styles.imageBackground}
-      >
-        <View style={styles.contentContainer}>
-          <View style={styles.image}>
-            <AntDesign style={styles.add} name="pluscircleo" size={25} />
-          </View>
-          <Text style={styles.title}>Реєстрація</Text>
-          <TextInput
-            style={[styles.input, isLoginFocused && styles.inputFocused]}
-            placeholder="Логін"
-            onFocus={handleLoginFocus}
-            onBlur={handleLoginBlur}
-            value={login}
-            onChangeText={setLogin}
-          />
-          <TextInput
-            style={[styles.input, isEmailFocused && styles.inputFocused]}
-            placeholder="Адреса електронної пошти"
-            onFocus={handleEmailFocus}
-            onBlur={handleEmailBlur}
-            value={Email}
-            onChangeText={setEmail}
-          />
-          <View style={styles.passwordInputContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../assets/images/photoBg.png")}
+          style={styles.imageBackground}
+        >
+          <View style={styles.contentContainer}>
+            <View style={styles.image}>
+              <AntDesign style={styles.add} name="pluscircleo" size={25} />
+            </View>
+            <Text style={styles.title}>Реєстрація</Text>
             <TextInput
-              style={[
-                styles.passwordInput,
-                isPasswordFocused && styles.inputFocused,
-              ]}
-              placeholder="Пароль"
-              secureTextEntry={!showPassword}
-              onFocus={handlePasswordFocus}
-              onBlur={handlePasswordBlur}
+              style={[styles.input, isLoginFocused && styles.inputFocused]}
+              placeholder="Логін"
+              onFocus={handleLoginFocus}
+              onBlur={handleLoginBlur}
+              value={login}
+              onChangeText={setLogin}
             />
-            <TouchableOpacity onPress={togglePasswordVisibility}>
-              <Text style={styles.passwordToggleText}>
-                {showPassword ? "Сховати" : "Показати"}
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <TouchableOpacity style={styles.buttonContainer}>
-            <Button
-              title="Зареєструватися"
-              buttonStyle={styles.button}
-              onPress={signIn}
+            <TextInput
+              style={[styles.input, isEmailFocused && styles.inputFocused]}
+              placeholder="Адреса електронної пошти"
+              onFocus={handleEmailFocus}
+              onBlur={handleEmailBlur}
+              value={email}
+              onChangeText={setEmail}
             />
-          </TouchableOpacity>
-          <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>Вже є акаунт?</Text>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={[styles.registerText, styles.registerLink]}>
-                Увійти
-              </Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={[
+                  styles.passwordInput,
+                  isPasswordFocused && styles.inputFocused,
+                ]}
+                placeholder="Пароль"
+                secureTextEntry={!showPassword}
+                onFocus={handlePasswordFocus}
+                onBlur={handlePasswordBlur}
+              />
+              <TouchableOpacity onPress={togglePasswordVisibility}>
+                <Text style={styles.passwordToggleText}>
+                  {showPassword ? "Сховати" : "Показати"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.buttonContainer}>
+              <Button
+                title="Зареєструватися"
+                buttonStyle={styles.button}
+                onPress={signIn}
+              />
             </TouchableOpacity>
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>Вже є акаунт?</Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={[styles.registerText, styles.registerLink]}>
+                  Увійти
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ImageBackground>
-    </View>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -138,7 +145,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     width: windowWidth,
-    alignItems: "center", // Відцентровує горизонтально
+    alignItems: "center",
   },
   title: {
     fontWeight: "500",
