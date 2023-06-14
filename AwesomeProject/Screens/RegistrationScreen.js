@@ -24,6 +24,7 @@ export const RegistrationScreen = () => {
   const [isPasswordFocused, setPasswordFocused] = useState(false);
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -48,12 +49,13 @@ export const RegistrationScreen = () => {
     setPasswordFocused(false);
   };
 
-  const signIn = () => {
+  const register = () => {
     console.debug("Register!");
+    console.debug("Login:", login);
+    console.debug("Email:", email);
+    console.debug("Password:", password);
+    // Додати логіку для збереження та використання введених даних
   };
-
-  console.debug(login);
-  console.debug(email);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -93,6 +95,8 @@ export const RegistrationScreen = () => {
                 secureTextEntry={!showPassword}
                 onFocus={handlePasswordFocus}
                 onBlur={handlePasswordBlur}
+                value={password}
+                onChangeText={setPassword}
               />
               <TouchableOpacity onPress={togglePasswordVisibility}>
                 <Text style={styles.passwordToggleText}>
@@ -104,7 +108,7 @@ export const RegistrationScreen = () => {
               <Button
                 title="Зареєструватися"
                 buttonStyle={styles.button}
-                onPress={signIn}
+                onPress={register}
               />
             </TouchableOpacity>
             <View style={styles.registerContainer}>

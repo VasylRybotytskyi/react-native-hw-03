@@ -7,6 +7,8 @@ import {
   View,
   StyleSheet,
   Dimensions,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import { Button } from "react-native-elements";
 
@@ -15,49 +17,66 @@ const windowHeight = Dimensions.get("window").height; // Для висоти е�
 
 export const LoginScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const signIn = () => {
+    console.debug("SingIn!");
+    console.debug("Email:", email);
+    console.debug("Password:", password);
+  };
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require("../assets/images/photoBg.png")}
-        style={styles.imageBackground}
-      >
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>Увійти</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Адреса електронної пошти"
-          />
-          <View style={styles.passwordInputContainer}>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <ImageBackground
+          source={require("../assets/images/photoBg.png")}
+          style={styles.imageBackground}
+        >
+          <View style={styles.contentContainer}>
+            <Text style={styles.title}>Увійти</Text>
             <TextInput
-              style={styles.passwordInput}
-              placeholder="Пароль"
-              secureTextEntry={!showPassword}
+              style={styles.input}
+              placeholder="Адреса електронної пошти"
+              value={email}
+              onChangeText={setEmail}
             />
-            <TouchableOpacity onPress={togglePasswordVisibility}>
-              <Text style={styles.passwordToggleText}>
-                {showPassword ? "Сховати" : "Показати"}
-              </Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Пароль"
+                secureTextEntry={!showPassword}
+                value={password}
+                onChangeText={setPassword}
+              />
+              <TouchableOpacity onPress={togglePasswordVisibility}>
+                <Text style={styles.passwordToggleText}>
+                  {showPassword ? "Сховати" : "Показати"}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => {}}>
+              <Button
+                title="Увійти"
+                buttonStyle={styles.button}
+                onPress={signIn}
+              />
             </TouchableOpacity>
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>Немає акаунту?</Text>
+              <TouchableOpacity onPress={() => {}}>
+                <Text style={[styles.registerText, styles.registerLink]}>
+                  Зареєструватися
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <TouchableOpacity style={styles.buttonContainer} onPress={() => {}}>
-            <Button title="Увійти" buttonStyle={styles.button} />
-          </TouchableOpacity>
-          <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>Немає акаунту?</Text>
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={[styles.registerText, styles.registerLink]}>
-                Зареєструватися
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </ImageBackground>
-    </View>
+        </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
